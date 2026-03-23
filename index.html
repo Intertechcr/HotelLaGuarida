@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -371,8 +371,8 @@
 
 <script>
     // ==================== CONFIGURACIÓN ====================
-    // ✅ TU URL DE GOOGLE APPS SCRIPT (ACTUALIZADA)
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxpDG2M3JRoh4828d_HcbaPCVt3KPkyhp05oTyBpXoVj2STcKAb8-p62J9Y7_2EXz9p/exec";
+    // ✅ NUEVA URL DE GOOGLE APPS SCRIPTS (ACTUALIZADA)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxT5j5rnwyK2TPxMXhB0VVAXgnk87DS0mhynQpezYxuIc7HEtwJAburMWKR2u4esD6y/exec";
     
     const ROOMS = [];
     for (let i = 1; i <= 11; i++) {
@@ -569,7 +569,7 @@
         const tbody = document.getElementById('reservationsTbody');
         if (!tbody) return;
         if (allReservations.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">No hay reservas registradas</td></tr>';
+            tbody.innerHTML = '工作站<td colspan="9" style="text-align:center;">No hay reservas registradas</td></tr>';
             return;
         }
         let rows = '';
