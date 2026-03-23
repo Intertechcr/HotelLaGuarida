@@ -5,7 +5,7 @@ function doGet() {
   // Crear el output HTML correctamente
   var output = HtmlService.createHtmlOutput(htmlContent);
   
-  // Configurar título (opcional, visible en la pestaña del navegador)
+  // Configurar título
   output.setTitle("Graduación 2025 - CEP");
   
   // Configurar como página web completa
@@ -41,7 +41,6 @@ function getHTMLContent() {
             padding: 0 15px;
         }
         
-        /* Tarjeta principal estilo panfleto */
         .pamphlet {
             background: white;
             border-radius: 25px;
@@ -49,12 +48,10 @@ function getHTMLContent() {
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         }
         
-        /* Header verde con dorado */
         .header {
             background: linear-gradient(135deg, #2c5e1a 0%, #3d7625 100%);
             text-align: center;
             padding: 30px 20px;
-            position: relative;
         }
         
         .logos {
@@ -110,7 +107,6 @@ function getHTMLContent() {
             margin-top: 10px;
         }
         
-        /* SECCIÓN DE FOTOS */
         .photos-section {
             padding: 20px;
             background: #fef9e6;
@@ -159,7 +155,6 @@ function getHTMLContent() {
             font-weight: bold;
         }
         
-        /* Título Itinerario */
         .itinerary-header {
             text-align: center;
             padding: 25px 20px 10px;
@@ -180,7 +175,6 @@ function getHTMLContent() {
             font-size: 0.9rem;
         }
         
-        /* Lista de eventos */
         .event-list {
             padding: 10px 25px 30px;
             background: white;
@@ -207,7 +201,6 @@ function getHTMLContent() {
             font-weight: 500;
         }
         
-        /* Footer */
         .footer {
             background: #2c5e1a;
             color: #f9eec1;
@@ -222,28 +215,13 @@ function getHTMLContent() {
             font-style: italic;
         }
         
-        /* Responsive */
         @media (max-width: 480px) {
-            .logo-circle {
-                width: 65px;
-                height: 65px;
-                font-size: 1.4rem;
-            }
-            
-            .main-title {
-                font-size: 1.6rem;
-            }
-            
-            .photo-img {
-                height: 130px;
-            }
-            
-            .event-name {
-                font-size: 0.9rem;
-            }
+            .logo-circle { width: 65px; height: 65px; font-size: 1.4rem; }
+            .main-title { font-size: 1.6rem; }
+            .photo-img { height: 130px; }
+            .event-name { font-size: 0.9rem; }
         }
         
-        /* Botón para confirmar asistencia */
         .rsvp-button {
             text-align: center;
             margin: 15px 20px 25px;
@@ -258,16 +236,10 @@ function getHTMLContent() {
             font-weight: bold;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s;
             width: 100%;
             max-width: 250px;
         }
         
-        .btn-confirm:hover {
-            transform: scale(1.02);
-        }
-        
-        /* Modal para confirmación */
         .modal {
             display: none;
             position: fixed;
@@ -311,8 +283,6 @@ function getHTMLContent() {
 <body>
     <div class="container">
         <div class="pamphlet">
-            
-            <!-- ENCABEZADO CON LOGOS -->
             <div class="header">
                 <div class="logos">
                     <div class="logo-item">
@@ -329,7 +299,6 @@ function getHTMLContent() {
                 <div class="founded">✦ 25 años de excelencia ✦</div>
             </div>
             
-            <!-- SECCIÓN DE FOTOS -->
             <div class="photos-section">
                 <div class="photos-title">✦ MOMENTOS ESPECIALES ✦</div>
                 <div class="photos-grid">
@@ -344,13 +313,11 @@ function getHTMLContent() {
                 </div>
             </div>
             
-            <!-- TÍTULO ITINERARIO -->
             <div class="itinerary-header">
                 <h2>ITINERARIO</h2>
                 <p>Programa de la ceremonia</p>
             </div>
             
-            <!-- LISTA DE EVENTOS -->
             <div class="event-list">
                 <div class="event-item"><div class="event-icon"><i class="fas fa-shoe-prints"></i></div><div class="event-name">Desfile de Entrada</div></div>
                 <div class="event-item"><div class="event-icon"><i class="fas fa-flag-checkered"></i></div><div class="event-name">Saludo a la Bandera</div></div>
@@ -365,23 +332,20 @@ function getHTMLContent() {
                 <div class="event-item"><div class="event-icon"><i class="fas fa-heart"></i></div><div class="event-name">Despedida</div></div>
             </div>
             
-            <!-- BOTÓN PARA CONFIRMAR ASISTENCIA -->
             <div class="rsvp-button">
                 <button class="btn-confirm" onclick="showModal()">
                     <i class="fas fa-check-circle"></i> Confirmar Asistencia
                 </button>
             </div>
             
-            <!-- FOOTER -->
             <div class="footer">
                 <div class="invite-message">✨ ¡Los esperamos para celebrar este gran logro! ✨</div>
                 <div><i class="fas fa-calendar-alt"></i> 2025</div>
-                <div style="margin-top: 10px;">Escuela Privada de Quepos - CEP</div>
+                <div>Escuela Privada de Quepos - CEP</div>
             </div>
         </div>
     </div>
     
-    <!-- MODAL PARA CONFIRMAR ASISTENCIA -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <h3>Confirmar Asistencia</h3>
@@ -412,34 +376,75 @@ function getHTMLContent() {
                 return;
             }
             
-            // Llamar a la función de Apps Script
-            google.script.run
-                .withSuccessHandler(function(response) {
+            // Usar fetch para llamar a la función del servidor
+            fetch(window.location.href, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=confirmar&nombre=' + encodeURIComponent(nombre) + 
+                      '&email=' + encodeURIComponent(email) + 
+                      '&telefono=' + encodeURIComponent(telefono)
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if(data.success) {
                     alert('✅ ¡Confirmación registrada! Gracias por confirmar tu asistencia.');
                     closeModal();
                     document.getElementById('nombre').value = '';
                     document.getElementById('email').value = '';
                     document.getElementById('telefono').value = '';
-                })
-                .withFailureHandler(function(error) {
-                    alert('❌ Error: ' + error.message);
-                })
-                .guardarConfirmacion(nombre, email, telefono);
+                } else {
+                    alert('❌ Error: ' + data.message);
+                }
+            })
+            .catch(function(error) {
+                alert('❌ Error de conexión: ' + error.message);
+            });
         }
     </script>
 </body>
 </html>`;
 }
 
+// Función para manejar POST requests (confirmaciones)
+function doPost(e) {
+  try {
+    var params = e.parameter;
+    var action = params.action;
+    
+    if(action === 'confirmar') {
+      var nombre = params.nombre;
+      var email = params.email;
+      var telefono = params.telefono;
+      
+      var result = guardarConfirmacion(nombre, email, telefono);
+      
+      return ContentService
+        .createTextOutput(JSON.stringify(result))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, error: "Acción no válida" }))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch(e) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: false, error: e.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
 // Función para guardar confirmaciones en Google Sheets
 function guardarConfirmacion(nombre, email, telefono) {
   try {
-    // Obtener o crear la hoja de cálculo
     var spreadsheetId = PropertiesService.getScriptProperties().getProperty('SHEET_ID');
     var sheet;
     
     if(!spreadsheetId) {
-      // Crear nueva hoja si no existe
       var spreadsheet = SpreadsheetApp.create('Confirmaciones Graduación 2025');
       spreadsheetId = spreadsheet.getId();
       PropertiesService.getScriptProperties().setProperty('SHEET_ID', spreadsheetId);
@@ -450,7 +455,6 @@ function guardarConfirmacion(nombre, email, telefono) {
       sheet = spreadsheet.getSheets()[0];
     }
     
-    // Agregar la confirmación
     sheet.appendRow([new Date(), nombre, email, telefono]);
     
     return { success: true, message: "Confirmación registrada" };
@@ -459,7 +463,7 @@ function guardarConfirmacion(nombre, email, telefono) {
   }
 }
 
-// Función para probar la conexión (ejecútala desde el editor)
+// Función para probar la conexión
 function testConexion() {
   var result = guardarConfirmacion("Prueba Técnica", "test@ejemplo.com", "8888-8888");
   Logger.log(result);
